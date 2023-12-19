@@ -5,6 +5,7 @@ header {
     border-bottom: 1px solid #cccccc;
 }
 div.logo {
-    background: url("images/logo.png") left center no-repeat;
+    height: 100%;
+    background: url("../images/logo.png") left center no-repeat;
     margin-left: 20px;
 }
