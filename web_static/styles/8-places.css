@@ -9,6 +9,7 @@
 }
 article{
     position: relative;
+    z-index: -1;
     width: 390px;
     padding: 20px;
     margin: 20px;
