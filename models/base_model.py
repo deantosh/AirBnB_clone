@@ -1,24 +1,24 @@
 import uuid
 from datetime import datetime
 
+"""
+Module defines `BaseModel` class, that is the bases for all other classes.
+"""
+
 
 class BaseModel:
     """defines the base model for all classes"""
+
+    storage = None
+
     def __init__(self, *args, **kwargs):
         """
         initialize the class
         """
-
-        # Default initialization if kwargs not provided
-
-        # Generate UUID
-        unique_id = uuid.uuid4()
-
-        self.id = str(unique_id)
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
-
-        # If kwargs is provided use value to initialize
+        if BaseModel.storage is None:
+            from models import storage  #lazy import
+            BaseModel.storage = storage
+        # If kwargs is provided (recreate object)
         if kwargs:
             for key, value in kwargs.items():
                 if key == '__class__':
@@ -26,6 +26,18 @@ class BaseModel:
                 if key == 'created_at' or key == 'updated_at':
                     value = datetime.fromisoformat(value)
                 setattr(self, key, value)
+        else:
+            # Default initialization (new instance)
+
+            # Generate UUID
+            unique_id = uuid.uuid4()
+
+            self.id = str(unique_id)
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+
+            # save new object
+            BaseModel.storage.new(self)
 
     def __str__(self):
         """
@@ -40,6 +52,9 @@ class BaseModel:
         updates the time an object has been updated
         """
         self.updated_at = datetime.now()
+
+        # save to FileStorage
+        BaseModel.storage.save()
 
     def to_dict(self):
         """
