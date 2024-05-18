@@ -1,11 +1,15 @@
 import os
 import json
+from models.user import User
 from models.base_model import BaseModel
 
 """
 Module defines `FileStorage` class that stores all objects created
 """
 
+# defines class name dictionary
+cls_dict = {"BaseModel": BaseModel, "User": User}
+ 
 
 class FileStorage:
     """
@@ -51,8 +55,6 @@ class FileStorage:
         __file_path) exists; otherwise, do nothing. If file does not exists,
         no exception should be raised.
         """
-        # defines class name dictionary
-        cls_dict = {"BaseModel": BaseModel}
         # check if file exists
         if os.path.exists(self.__file_path):
             with open(self.__file_path, "r") as file:

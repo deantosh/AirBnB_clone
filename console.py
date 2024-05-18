@@ -3,6 +3,7 @@
 import cmd
 import sys
 from models import storage
+from models.user import User
 from models.base_model import BaseModel
 
 """
@@ -11,7 +12,7 @@ interpreter.
 """
 
 # define global class dict
-cls_dict = {"BaseModel": BaseModel}
+cls_dict = {"BaseModel": BaseModel, "User": User}
 
 
 class HBNBCommand(cmd.Cmd):
