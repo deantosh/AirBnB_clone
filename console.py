@@ -26,10 +26,7 @@ class HBNBCommand(cmd.Cmd):
     Defines the command interpreter
     """
     # display prompt in interactive and non-interactive mode
-    if sys.stdin.isatty():
-        prompt = "(hbnb) "
-    else:
-        prompt = "(hbnb)\n"
+    prompt = "(hbnb) "
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
