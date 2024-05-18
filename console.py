@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import cmd
+import sys
 from models import storage
 from models.base_model import BaseModel
 
@@ -17,8 +18,11 @@ class HBNBCommand(cmd.Cmd):
     """
     Defines the command interpreter
     """
-    # user input prompt
-    prompt = "(hbnb) "
+    # display prompt in interactive and non-interactive mode
+    if sys.stdin.isatty():
+        prompt = "(hbnb) "
+    else:
+        prompt = "(hbnb)\n"
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
@@ -123,6 +127,51 @@ class HBNBCommand(cmd.Cmd):
             for obj in objs.values():
                 objs_list.append(str(obj))
             print(objs_list)
+
+    def do_update(self, line):
+        """
+        Updates an instance based on the class name and id by adding or
+        updating attribute (save the change into the JSON file
+        """
+        args = line.split()
+        if len(args) >= 4:
+            cls = cls_dict.get(args[0])
+            if cls:
+                objs = storage.all()
+                obj_key = "{}.{}".format(args[0], args[1])
+                if obj_key in objs:
+                    obj = objs.get(obj_key)
+
+                    # convert attribute_value to correct data type
+                    try:
+                        value = float(args[3])
+                        if value.is_integer():
+                            attr_value = int(value)
+                        else:
+                            attr_value = value
+                    except ValueError:
+                        # remove quotes
+                        value = args[3].strip('\'"')
+                        attr_value = str(value)
+
+                    # update object
+                    setattr(obj, args[2], attr_value)
+                    
+                    # save update to file
+                    storage.save()
+                else:
+                    print("** no instance found **")
+            else:
+                print("** class doesn't exist **")
+        else:
+            if len(args) == 0:
+                print("** class name missing **")
+            if len(args) == 1:
+                print("** instance id missing **")
+            if len(args) == 2:
+                print("** attribute name missing **")
+            if len(args) == 3:
+                print("** value missing **")
 
 
 if __name__ == '__main__':
