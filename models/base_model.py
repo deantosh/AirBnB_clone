@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import uuid
 from datetime import datetime
 
@@ -16,7 +18,7 @@ class BaseModel:
         initialize the class
         """
         if BaseModel.storage is None:
-            from models import storage  #lazy import
+            from models import storage  # lazy import
             BaseModel.storage = storage
         # If kwargs is provided (recreate object)
         if kwargs:
