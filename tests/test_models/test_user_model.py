@@ -23,7 +23,7 @@ class TestUser(unittest.TestCase):
         self.assertEqual(self.user.first_name, "")
         self.assertEqual(self.user.last_name, "")
 
-    def test_class_attributes(self):
+    def test_user_value_attributes(self):
         """Test user attributes with values"""
 
         # create user object
