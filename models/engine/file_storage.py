@@ -1,6 +1,11 @@
 import os
 import json
 from models.user import User
+from models.city import City
+from models.state import State
+from models.place import Place
+from models.review import Review
+from models.amenity import Amenity
 from models.base_model import BaseModel
 
 """
@@ -8,8 +13,9 @@ Module defines `FileStorage` class that stores all objects created
 """
 
 # defines class name dictionary
-cls_dict = {"BaseModel": BaseModel, "User": User}
- 
+cls_dict = {"BaseModel": BaseModel, "User": User, "State": State,
+            "City": City, "Amenity": Amenity, "Place": Place, "Review": Review}
+
 
 class FileStorage:
     """
