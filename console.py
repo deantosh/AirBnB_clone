@@ -12,7 +12,8 @@ interpreter.
 """
 
 # define global class dict
-cls_dict = {"BaseModel": BaseModel, "User": User}
+cls_dict = {"BaseModel": BaseModel, "User": User, "State": State,
+            "City": City, "Amenity": Amenity, "Place": Place, "Review": Review}
 
 
 class HBNBCommand(cmd.Cmd):
@@ -157,7 +158,7 @@ class HBNBCommand(cmd.Cmd):
 
                     # update object
                     setattr(obj, args[2], attr_value)
-                    
+
                     # save update to file
                     storage.save()
                 else:
