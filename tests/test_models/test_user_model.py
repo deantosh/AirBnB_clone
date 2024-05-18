@@ -16,6 +16,12 @@ class TestUser(unittest.TestCase):
         """Setup test environment"""
         self.user = User()
 
+    def tearDown(self) -> None:
+        """Resets FileStorage data."""
+        FileStorage._FileStorage__objects = {}
+        if os.path.exists(FileStorage._FileStorage__file_path):
+            os.remove(FileStorage._FileStorage__file_path)
+
     def test_empty_attributes(self):
         """Test an empty user object"""
         self.assertEqual(self.user.email, "")
