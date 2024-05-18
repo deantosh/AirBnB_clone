@@ -1,20 +1,19 @@
 #!/usr/bin/python3
-
+"""Unit tests for the `state` module.
+"""
+import os
 import unittest
+from models.engine.file_storage import FileStorage
 from models.user import User
-from models.base_model import BaseModel
-
-"""
-Module defines a test for `User` class.
-"""
+from models import storage
+from datetime import datetime
 
 
-class TestUser(unittest.TestCase):
-    """Test `User` class"""
+class TestState(unittest.TestCase):
+    """Test cases for the `User` class."""
 
     def setUp(self):
-        """Setup test environment"""
-        self.user = User()
+        pass
 
     def tearDown(self) -> None:
         """Resets FileStorage data."""
@@ -22,31 +21,48 @@ class TestUser(unittest.TestCase):
         if os.path.exists(FileStorage._FileStorage__file_path):
             os.remove(FileStorage._FileStorage__file_path)
 
-    def test_empty_attributes(self):
-        """Test an empty user object"""
-        self.assertEqual(self.user.email, "")
-        self.assertEqual(self.user.password, "")
-        self.assertEqual(self.user.first_name, "")
-        self.assertEqual(self.user.last_name, "")
+    def test_params(self):
+        u1 = User()
+        k = f"{type(u1).__name__}.{u1.id}"
+        self.assertIn(k, storage.all())
+        self.assertIsInstance(u1.email, str)
+        self.assertIsInstance(u1.password, str)
+        self.assertIsInstance(u1.first_name, str)
+        self.assertIsInstance(u1.last_name, str)
 
-    def test_non_empty_attributes(self):
-        """Test user attributes with values"""
+    def test_init(self):
+        """Test method for public instances"""
+        u1 = User()
+        u2 = User(**u1.to_dict())
+        self.assertIsInstance(u1.id, str)
+        self.assertIsInstance(u1.created_at, datetime)
+        self.assertIsInstance(u1.updated_at, datetime)
+        self.assertEqual(u1.updated_at, u2.updated_at)
 
-        # create user object
-        self.user.email = "airbnb@mail.com"
-        self.user.password = "root"
-        self.user.first_name = "Betty"
-        self.user.last_name = "Bar"
+    def test_str(self):
+        """Test method for str representation"""
+        u1 = User()
+        string = f"[{type(u1).__name__}] ({u1.id}) {u1.__dict__}"
+        self.assertEqual(u1.__str__(), string)
 
-        self.assertIsInstance(self.user.email, str)
-        self.assertEqual(self.user.email, "airbnb@mail.com")
-        self.assertIsInstance(self.user.password, str)
-        self.assertEqual(self.user.password, "root")
-        self.assertIsInstance(self.user.first_name, str)
-        self.assertEqual(self.user.first_name, "Betty")
-        self.assertIsInstance(self.user.last_name, str)
-        self.assertEqual(self.user.last_name, "Bar")
+    def test_save(self):
+        """Test method for save"""
+        u1 = User()
+        old_update = u1.updated_at
+        u1.save()
+        self.assertNotEqual(u1.updated_at, old_update)
 
-    def test_inherits_from_base_model(self):
-        """Test user inherits from `BaseModel` class"""
-        self.assertIsInstance(self.user, BaseModel)
+    def test_todict(self):
+        """Test method for dict"""
+        u1 = User()
+        u2 = User(**u1.to_dict())
+        a_dict = u2.to_dict()
+        self.assertIsInstance(a_dict, dict)
+        self.assertEqual(a_dict['__class__'], type(u2).__name__)
+        self.assertIn('created_at', a_dict.keys())
+        self.assertIn('updated_at', a_dict.keys())
+        self.assertNotEqual(u1, u2)
+
+
+if __name__ == "__main__":
+    unittest.main()
