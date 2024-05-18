@@ -21,7 +21,7 @@ class TestCity(unittest.TestCase):
         self.assertEqual(self.city.state_id, "")
         self.assertEqual(self.city.name, "")
 
-    def test_class_type_attribute(self):
+    def test_non_empty_attribute(self):
         """Test the type of instance attributes"""
         self.assertIsInstance(self.city.state_id, str)
         self.assertIsInstance(self.city.name, str)
