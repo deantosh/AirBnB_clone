@@ -14,11 +14,11 @@ class TestAmenity(unittest.TestCase):
         """Setup test environment"""
         self.amenity = Amenity()
 
-    def test_empty_attributes(self):
+    def test_empty_class_attributes(self):
         """Test empty instance"""
         self.assertEqual(self.amenity.name, "")
 
-    def test_type_attributes(self):
+    def test_class_attributes_type(self):
         """Test type of attributes"""
         self.assertIsInstance(self.amenity.name, str)
 
