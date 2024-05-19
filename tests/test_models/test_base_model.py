@@ -1,13 +1,11 @@
 #!/usr/bin/python3
-
+"""
+Module defines a test for the `BaseModel` class
+"""
 import time
 import unittest
 from datetime import datetime
 from models.base_model import BaseModel
-
-"""
-Module defines a test for the `BaseModel` class
-"""
 
 
 class TestBaseModel(unittest.TestCase):
