@@ -181,7 +181,7 @@ class HBNBCommand(cmd.Cmd):
         """executes command methods not defined"""
 
         # list of commands
-        cmd_list = ["all", "count", "show"]
+        cmd_list = ["all", "count", "show", "destroy"]
 
         # extract command name ,class name and instance id
         args = line.split('.')
@@ -191,6 +191,8 @@ class HBNBCommand(cmd.Cmd):
         id_value = cmd[1].split(')')
         if len(id_value) > 0:
             id = id_value[0].strip("\"'")
+            # create argument to pass to function
+            cmd_string = "{} {}".format(cls_name, id)
 
         cls = cls_dict.get(cls_name)
         if cls:
@@ -212,8 +214,11 @@ class HBNBCommand(cmd.Cmd):
 
                 elif cmd_name == "show":
                     # execute <class name>.show(<id>) command
-                    cmd_string = "{} {}".format(cls_name, id)
                     self.do_show(cmd_string)
+
+                elif cmd_name == "destroy":
+                    # execute <class name>.destroy(<id>) command
+                    self.do_destroy(cmd_string)
 
 
 if __name__ == '__main__':
