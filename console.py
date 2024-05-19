@@ -181,7 +181,7 @@ class HBNBCommand(cmd.Cmd):
         """executes command methods not defined"""
 
         # list of commands
-        cmd_list = ["all"]
+        cmd_list = ["all", "count"]
 
         # extract command and class name
         args = line.split('.')
@@ -195,6 +195,15 @@ class HBNBCommand(cmd.Cmd):
                 if cmd_name == "all":
                     # execute all command
                     self.do_all(cls_name)
+                elif cmd_name == "count":
+                    objs = storage.all()
+                    cls_objs_dict = {}
+                    for key, obj in objs.items():
+                        name = key.split('.')[0]
+                        if name == cls_name:
+                            cls_objs_dict[key] = obj
+                    # print count
+                    print(len(cls_objs_dict))
 
 
 if __name__ == '__main__':
