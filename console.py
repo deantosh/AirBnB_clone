@@ -177,6 +177,25 @@ class HBNBCommand(cmd.Cmd):
             if len(args) == 3:
                 print("** value missing **")
 
+    def default(self, line):
+        """executes command methods not defined"""
+
+        # list of commands
+        cmd_list = ["all"]
+
+        # extract command and class name
+        args = line.split('.')
+        cls_name = args[0]
+        cmd = args[1].split('(')
+        cmd_name = cmd[0]
+
+        cls = cls_dict.get(cls_name)
+        if cls:
+            if cmd_name in cmd_list:
+                if cmd_name == "all":
+                    # execute all command
+                    self.do_all(cls_name)
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
