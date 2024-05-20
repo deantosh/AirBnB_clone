@@ -55,7 +55,10 @@ class BaseModel:
         obj_dict = {}
         for key, value in self.__dict__.items():
             if key == "created_at" or key == "updated_at":
-                obj_dict[key] = datetime.isoformat(value)
+                if isinstance(value, datetime):
+                    obj_dict[key] = datetime.isoformat(value)
+                else:
+                    obj_dict[key] = value
             else:
                 obj_dict[key] = value
         obj_dict["__class__"] = type(self).__name__
