@@ -1,14 +1,12 @@
 #!/usr/bin/python3
-
+"""
+Module defines a test for `FileStorage` class
+"""
 import os
 import json
 import unittest
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
-
-"""
-Module defines a test for `FileStorage` class
-"""
 
 
 class TestFileStorage(unittest.TestCase):
