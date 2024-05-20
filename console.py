@@ -1,5 +1,17 @@
 #!/usr/bin/python3
-
+"""
+Defines a program `console` that contains the entry point of the command
+interpreter.
+Requirements:
+  - You must use the module cmd
+  - Your class definition must be: class HBNBCommand(cmd.Cmd):
+  - Your command interpreter should implement:
+  - quit and EOF to exit the program
+  - help (this action is provided by default by cmd but you should keep it
+    updated and documented as you work through tasks) a custom prompt: (hbnb)
+  - an empty line + ENTER shouldn’t execute anything
+  - Your code should not be executed when imported
+"""
 import cmd
 import sys
 from models import storage
@@ -10,11 +22,6 @@ from models.state import State
 from models.review import Review
 from models.amenity import Amenity
 from models.base_model import BaseModel
-
-"""
-Defines a program `console` that contains the entry point of the command
-interpreter.
-"""
 
 # define global class dict
 cls_dict = {"BaseModel": BaseModel, "User": User, "State": State,
@@ -181,18 +188,27 @@ class HBNBCommand(cmd.Cmd):
         """executes command methods not defined"""
 
         # list of commands
-        cmd_list = ["all", "count", "show", "destroy"]
+        cmd_list = ["all", "count", "show", "destroy", "update"]
 
-        # extract command name ,class name and instance id
+        # extract command name ,class name
         args = line.split('.')
         cls_name = args[0]
         cmd = args[1].split('(')
         cmd_name = cmd[0]
-        id_value = cmd[1].split(')')
-        if len(id_value) > 0:
-            id = id_value[0].strip("\"'")
-            # create argument to pass to function
+
+        # extract function arguments
+        args_list = cmd[1].split(',')
+        if len(args_list) > 0:
+            id = args_list[0].strip("\"'")
+            # string to pass to function
             cmd_string = "{} {}".format(cls_name, id)
+
+        if len(args_list) > 2:
+            attr_name = args_list[1].strip("\"'")
+            attr_value = args_list[2].strip("\"'")
+            # string to pass to function
+            cmd_string = "{} {} {} {}".format(cls_name, id,
+                                              attr_name, attr_value)
 
         cls = cls_dict.get(cls_name)
         if cls:
@@ -214,11 +230,18 @@ class HBNBCommand(cmd.Cmd):
 
                 elif cmd_name == "show":
                     # execute <class name>.show(<id>) command
+                    print(cmd_string)
                     self.do_show(cmd_string)
 
                 elif cmd_name == "destroy":
                     # execute <class name>.destroy(<id>) command
                     self.do_destroy(cmd_string)
+
+                elif cmd_name == "update":
+                    # execute <class name>.update(<id>, <attribute name>,
+                    # <attribute value>)
+                    print(cmd_string)
+                    self.do_update(cmd_string)
 
 
 if __name__ == '__main__':
