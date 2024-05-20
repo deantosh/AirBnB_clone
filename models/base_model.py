@@ -35,8 +35,8 @@ class BaseModel:
             unique_id = uuid.uuid4()
 
             self.id = str(unique_id)
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
+            self.created_at = datetime.utcnow()
+            self.updated_at = datetime.utcnow()
 
             # save new object
             BaseModel.storage.new(self)
@@ -53,7 +53,7 @@ class BaseModel:
         """
         updates the time an object has been updated
         """
-        self.updated_at = datetime.now()
+        self.updated_at = datetime.utcnow()
 
         # save to FileStorage
         BaseModel.storage.save()
