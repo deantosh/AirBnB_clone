@@ -18,8 +18,10 @@ class BaseModel:
         initialize the class
         """
         self.id = kwargs.get('id', str(uuid.uuid4()))
-        self.created_at = kwargs.get('created_at', datetime.utcnow())
-        self.updated_at = kwargs.get('updated_at', datetime.utcnow())
+        self.created_at = self._parse_datetime(
+                          kwargs.get('created_at', datetime.utcnow()))
+        self.updated_at = self._parse_datetime(
+                          kwargs.get('updated_at', datetime.utcnow()))
 
         # Lazy import -- circular imports
         if BaseModel.storage is None:
@@ -29,6 +31,12 @@ class BaseModel:
         if not kwargs:
             # save new object
             BaseModel.storage.new(self)
+
+    def _parse_datetime(self, value):
+        """convert to datetime"""
+        if isinstance(value, str):
+            return datetime.fromisoformat(value)
+        return value
 
     def __str__(self):
         """
@@ -55,10 +63,7 @@ class BaseModel:
         obj_dict = {}
         for key, value in self.__dict__.items():
             if key == "created_at" or key == "updated_at":
-                if isinstance(value, datetime):
-                    obj_dict[key] = datetime.isoformat(value)
-                else:
-                    obj_dict[key] = value
+                obj_dict[key] = datetime.isoformat(value)
             else:
                 obj_dict[key] = value
         obj_dict["__class__"] = type(self).__name__
