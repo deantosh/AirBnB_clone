@@ -20,22 +20,22 @@ section.filters button{
 section.filters button:hover{
     opacity: 90%;
 }
-.locations, .amenities{
+section.filters div.locations, section.filters div.amenities{
     height: 100%;
     width: 25%;
     padding: 15px 0;
 }
-.locations{
+section.filters div.locations{
     border-right: 1px solid #dddddd;
 }
 
-.locations h3, .amenities h3{
+section.filters div.locations h3, section.filters div.amenities h3{
     font-weight: 600;
     margin: 0;
     margin-left: 30px;
 }
 
-.locations h4, .amenities h4{
+section.filters div.locations h4, section.filters div.amenities h4{
     font-weight: 400;
     font-size: 14px;
     margin: 0 0 0 30px;
